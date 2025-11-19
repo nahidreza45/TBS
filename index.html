@@ -3,832 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="output.css">
     <title>E-Ticket Booking System</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: rgb(95, 95, 95);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-        .container a{
-            text-decoration: none;
-            
-        }
-
-        h1 {
-            text-align: center;
-            color: blueviolet;
-            margin-bottom: 30px;
-            font-size: 2.5em;
-        }
-
-        .main-menu {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-
-        .btn {
-            padding: 15px 30px;
-            background: blueviolet;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: 0.25s;
-            font-weight: bold;
-        }
-
-        .btn:hover {
-            background-color: #6116a7;
-        }
-
-        .section {
-            display: none;
-        }
-
-        .section.active {
-            display: block;
-            animation: fadeIn 0.5s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color:#333;
-            font-weight: 600;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: blueviolet;
-        }
-
-        .error {
-            color: #e74c3c;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-
-        .ticket-info, .buyer-details {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border-left: 5px solid blueviolet;
-        }
-
-        .ticket-info h3, .buyer-details h3 {
-            color: #667eea;
-            margin-bottom: 15px;
-        }
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .info-row:last-child {
-            border-bottom: none;
-        }
-
-        .info-label {
-            font-weight: 600;
-            color: #555;
-        }
-
-        .info-value {
-            color: #333;
-        }
-
-        .route-option, .time-option {
-            display: block;
-            padding: 12px;
-            margin: 8px 0;
-            background: white;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .route-option:hover, .time-option:hover {
-            border-color: blueviolet;
-            background: white;
-        }
-        #continueBtn{
-            background-color: green;
-            color: white;
-            border: none;
-        }
-        #continueBtn:hover{
-            background-color: rgb(1, 85, 1);
-        }
-        .route-option.selected, .time-option.selected {
-            border-color: blueviolet;
-            background: blueviolet;
-            color: white;
-            font-weight: bold;
-        }
-
-        .payment-methods {
-            display: flex;
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .payment-option {
-            flex: 1;
-            padding: 20px;
-            border: 2px solid grey;
-            border-radius: 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            color: grey;
-        }
-
-        .payment-option:hover {
-            border-color: blueviolet;
-            color: blueviolet;
-        }
-
-        .payment-option.selected {
-            background: blueviolet;
-            border-color: blueviolet;
-            color: white;
-        }
-        /* .bkash{
-            color: #E2136E;
-            border:2px solid #E2136E;
-        } */
-        .bkash:hover {
-            border-color:  #E2136E;
-            color: #E2136E;
-        }
-        .bkash.selected{
-            background-color:  #E2136E;
-            color: white;
-            border-color: #E2136E;
-        }
-        /* .nagad{
-            color: #EC1C24;
-            border:2px solid #EC1C24;
-        } */
-        .nagad:hover{
-            border-color:  #EC1C24;
-            color: #EC1C24;
-        }
-        .nagad.selected{
-            background-color:  #EC1C24;
-            color: white;
-            border-color: #EC1C24;
-        }
-
-        .coupon-section {
-            background: #fff3cd;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
-
-        .back-btn {
-            background: #6c757d;
-            margin-top: 20px;
-        }
-        .back-btn:hover{
-            background: #3f4346;
-        }
-
-        .success-message {
-            background: #d4edda;
-            color: #155724;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-            
-            .main-menu {
-                flex-direction: column;
-            }
-            
-            .payment-methods {
-                flex-direction: column;
-            }
-        }
-    </style>
 </head>
 <body>
-    <div class="container">
-        <a href="index.html">
-            <h1>E-Ticket Booking System</h1>
-        </a>
-
-        <!-- Main Menu -->
-        <div id="mainMenu" class="section active">
-            <div class="main-menu">
-                <button class="btn" onclick="showBuyTicket()">Buy Ticket</button>
-                <button class="btn" onclick="showCheckTicket()">Check Ticket</button>
-            </div>
-        </div>
-
-        <!-- Buy Ticket Section -->
-        <div id="buyTicketSection" class="section">
-            <h2>Select Ticket Type</h2>
-            <div class="form-group">
-                <label>Choose your transportation:</label>
-                <select id="ticketType" onchange="handleTicketTypeChange()">
-                    <option value="">Select Ticket Type</option>
-                    <option value="bus">Bus Ticket</option>
-                    <option value="train">Train Ticket</option>
-                    <option value="flight">Flight Ticket</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Ticket Class:</label>
-                <select id="premiumChoice">
-                    <option value="0">Regular</option>
-                    <option value="1">Premium</option>
-                </select>
-            </div>
-
-            <div id="routeSection" style="display:none;">
-                <h3>Select Route</h3>
-                <div id="routeOptions"></div>
-            </div>
-
-            <div id="timeSection" style="display:none;">
-                <h3>Select Departure Time</h3>
-                <div id="timeOptions"></div>
-            </div>
-
-            <button class="btn" onclick="proceedToPassengerInfo()" id="continueBtn" style="display:none;">Continue to Passenger Info</button>
-            <button class="btn back-btn" onclick="showMainMenu()">Back to Menu</button>
-        </div>
-
-        <!-- Passenger Info Section -->
-        <div id="passengerSection" class="section">
-            <h2>Passenger Information</h2>
-            <div class="form-group">
-                <label>Full Name:</label>
-                <input type="text" id="passengerName"  placeholder="Enter your full name">
-                <span class="error" id="nameError"></span>
-            </div>
-
-            <div class="form-group">
-                <label>Age:</label>
-                <input type="number"  id="passengerAge" min="1" max="120" placeholder="Enter your age">
-                <span class="error" id="ageError"></span>
-            </div>
-
-            <div class="form-group">
-                <label>Contact Number:</label>
-                <input type="tel" id="passengerContact" placeholder="01XXXXXXXXX">
-                <span class="error" id="contactError"></span>
-            </div>
-
-            <button class="btn" onclick="showTicketSummary()">Continue to Payment</button>
-            <button class="btn back-btn" onclick="showBuyTicket()">Back</button>
-        </div>
-
-        <!-- Ticket Summary & Payment -->
-        <div id="summarySection" class="section">
-            <h2>Ticket Summary</h2>
-            <div class="ticket-info" id="ticketSummary"></div>
-
-            <div class="coupon-section">
-                <h3>Have a Coupon Code?</h3>
-                <div class="form-group">
-                    <input type="text" id="couponCode" placeholder="Enter coupon code">
-                    <button class="btn" onclick="applyCoupon()" style="margin-top:10px;">Apply Coupon</button>
-                </div>
-                <p id="couponShow" style="font-size:14px; margin-top:10px; display: none;"> <strong>Congratulations!!</strong> (11.11% off)</p>
-            </div>
-
-            <h3>Select Payment Method</h3>
-            <div class="payment-methods">
-                <div class="payment-option bkash" onclick="selectPayment('bkash')">
-                    <h4>Bkash</h4>
-                </div>
-                <div class="payment-option nagad" onclick="selectPayment('nagad')">
-                    <h4>Nagad</h4>
-                </div>
-                <div class="payment-option bank" onclick="selectPayment('bank')">
-                    <h4>Bank</h4>
+    <div class="full-body *:text-lg *:text-cyan-800">
+        <section id="navbar">
+            <div class="heading">
+                <div class="text-3xl sm:text-4xl p-5 text-cyan-900  shadow-xl font-bold text-center mb-10">
+                    <h1>E-Ticket Booking System</h1>
                 </div>
             </div>
+        </section>
 
-            <div id="paymentDetails" style="display:none; margin-top:20px;">
-                <div class="form-group">
-                    <label id="paymentLabel">Enter PIN:</label>
-                    <input type="password" id="paymentPin" placeholder="Enter your PIN">
+        <div class="main-body max-w-150 block m-auto">
+            <section style="display: block;" id="buy-check-button">
+                <div class="flex flex-col sm:flex-row *:w-70 justify-center items-center mt-20 gap-5">
+                    <button id="buy-button" class="btn btn-primary">Buy Ticket</button>
+                    <button id="check-ticket" class="btn btn-primary">Check Ticket</button>
                 </div>
-            </div>
+            </section>
 
-            <button class="btn" onclick="processPayment()" id="payBtn" style="display:none;">Confirm & Pay</button>
-            <button class="btn back-btn" onclick="showPassengerInfo()">Back</button>
-        </div>
 
-        <!-- Check Ticket Section -->
-        <div id="checkTicketSection" class="section">
-            <h2>Check Ticket Details</h2>
-            <div class="form-group">
-                <label>Enter Ticket ID:</label>
-                <input type="text" id="searchTicketID" placeholder="e.g., BU12345">
-            </div>
-            <button class="btn" onclick="searchTicket()">Search</button>
-            <div id="ticketResult"></div>
-            <button class="btn back-btn" onclick="showMainMenu()">Back to Menu</button>
+            <section style="display: none;" id="ticket-buy-section">
+                <div class="">
+                    <div class="m-4 p-3">
+                        <div class="flex mt-2 items-center">
+                            <p class="w-80">Select Ticket Type</p>
+                            <select onclick={displayRoutesTimes(value)} class="border-2 p-2 hover:ring rounded w-full" name="ticket_type" id="ticket_type">
+                                <option value="BUS">Bus</option>
+                                <option value="TRAIN">Train</option>
+                                <option value="FLIGHT">Flight</option>
+                            </select>
+                        </div>
+                        <div class="flex mt-2 items-center">
+                            <p class="w-80">Premium Ticket?</p>
+                            <select onclick={premiumFare(value)} class="border-2 p-2 hover:ring rounded w-full" name="is_premium" id="is_premium">
+                                <option value="yes">Yes</option>
+                                <option selected value="no">No</option>
+                            </select>
+                        </div>
+
+
+                        <div id="route-container">
+                            
+                            
+                        </div>
+                        <div id="time-container">
+                            
+                            
+                        </div>
+                        <div class="passengerInfo">
+                        
+                            <div>
+                                <div class="flex flex-col sm:flex-row mt-2 items-center">
+                                    <p class="sm:w-80 w-full">Name</p>
+                                    <input class="border-2 sm:ml-0 p-2 hover:ring rounded w-full" required placeholder="Enter your name" type="text" name="" id="passenger-name">
+                                </div>
+                                <div class="flex flex-col sm:flex-row mt-2 items-center">
+                                    <p class="sm:w-80 w-full">Age</p>
+                                    <input class="border-2 p-2 hover:ring rounded w-full" required min="0" max="120" placeholder="Enter your age" type="number" name="" id="passenger-age">
+                                </div>
+                                <div class="flex flex-col sm:flex-row mt-2 items-center">
+                                    <p class="sm:w-80 w-full">Mobile number</p>
+                                    <div class="sm:-ml-1 flex flex-row *:p-2 items-center border-2 hover:ring rounded w-full">
+                                        <span class="border-r-2 bg-gray-50 rounded rounded-r-none">+880</span> 
+                                        <input class="w-full" required placeholder="1XXXXXXXXX" type="number" name="" id="passenger-contact">
+        
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 my-5">
+                            <a href="index.html">
+                                <button class="btn w-40  text-white border-gray-800  bg-gray-800">Back</button>
+                            </a>
+                            <button id="process-next-button" class="btn w-full text-green-800">Process Next</button>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <section style="display: none;" id="payment-section">
+                <div>
+                    <div class="mx-5 p-2">
+                        <h3 class="text-2xl my-2 font-bold">Ticket Summary</h3>
+
+                        <div id="summary-show">
+                        
+                            <!-- Filled By JS -->
+
+                        </div>
+
+                        <div class="flex flex-col mt-2 items-center">
+                            <p class="w-full">Do you have any coupon code?</p>
+                                <div class="flex gap-2 w-full">
+                                    <input id="coupon-input" class="border-2 p-2 hover:ring rounded w-full" placeholder="Enter coupon code" type="text" name="" id="">
+                                    <button id="apply-coupon-button" class="btn text-white bg-cyan-800 border-cyan-800 w-80">Apply Coupon</button>
+                                </div>
+                                
+                                <div id="coupon-success-div" style="display: none;" class="mt-2 bg-green-100 p-2 border-2 border-green-100 rounded w-full">
+                                    <span">
+                                        <strong>Congratulation!</strong> You have got 11.11% Discount.
+                                        <span id="bdt-saved-msg"></span>
+                                    </span>
+                                </div>
+                            
+                        </div>
+                        <div>
+                            <div class="flex flex-col mt-2 items-center">
+                                <p class="w-full mb-2">Select your payment mathode</p>
+                                <div id = "payment-buttons" class="flex justify-around *:w-40 gap-2 w-full">
+                                    <button name="bkash" class="btn bkash ">BKash</button>
+                                    <button name="nagad" class="btn nagad ">Nagad</button>
+                                    <button name="bank" class="btn bank ">Bank</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: none;" id="payment-account-number">
+                            <div class="flex flex-col mt-2 items-center">
+                                <p class="w-full mb-2">Enter your account number</p>
+                                <input class="border-2 p-2 hover:ring rounded w-full" placeholder="Enter account number" type="number" name="" id="">
+                            </div>
+                            <div class="flex flex-col mt-2 items-center">
+                                <p class="w-full mb-2">Enter pin number</p>
+                                <input class="border-2 p-2 hover:ring rounded w-full" placeholder="Enter pin" type="password" name="" id="">
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex w-full  gap-3 my-5">
+                            <a href="index.html">
+                                <button class="btn w-25 sm:w-50 text-white border-gray-800 ring bg-gray-800">Home</button>
+                            </a>
+                            <button id="confirm-payment-button" class="btn w-full text-green-800">Confirm Payment</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section style="display: none;" id="final-section">
+                <div class="px-5">
+    
+                    <div class="p-4 mt-4 flex flex-col items-center bg-green-100 rounded">
+                        <div class="text-green-900">
+                            <h1 class="text-2xl font-bold">Booking Confirmed..!</h1>
+                            <p><strong>Transaction ID:</strong> <span id="show-transaction-id">TXM8L2M</span></p>
+                            <p><strong>Ticket ID:</strong> <span id="show-ticket-id">TXM8L2M</span></p>
+                            <p>Your ticket has been booked successfully!</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 mt-5">
+                        <a href="index.html">
+                            <button class="btn bg-gray-800 border-2 border-gray-800 text-white w-50">Home</button>
+                        </a>
+                        <button id="check-ticket-last" class="btn btn-primary w-full">Check Ticket</button>
+                    </div>
+                </div>
+            </section>
+            
+            <section style="display: none;" id="check-ticket-details">
+                <div class="p-5">
+                    <div>
+                        <h2 class="text-2xl font-bold">Check Ticket Details</h2>
+                        <p>Enter Ticket ID</p>
+                        <input class="border-2 p-2 hover:ring rounded w-full" type="text" placeholder="e.g: BUK4EL2" name="" id="ticket-id-input_home">
+                    </div>
+                    <div class="flex gap-3">
+                        <a href="index.html">
+                            <button class="btn mt-5 bg-gray-800 border-2 border-gray-800 text-white w-50">Home</button>
+                        </a>
+                        <button onclick="showSavedTicket()" class="btn mt-5 w-full bg-cyan-800 text-white border-2 border-cyan-800">Search</button>
+
+                    </div>
+                    <div style="display: none;" id="invalid-ticket-id">
+                        <div class="bg-red-200 text-red-900 font-bold rounded p-5 mt-3">
+                            <h1>Invalid Ticket ID. No booked ticket found  :-(</h1>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section style="display: none;" id="saved-ticket-show">
+                <div>
+                    <div class="mx-5 p-2">
+                        <h3 class="text-2xl my-2 font-bold">Ticket Summary</h3>
+
+                        <div id="saved-ticket-summary-show">
+                        
+                            <!-- Filled By JS -->
+
+                        </div>
+                        <a href="index.html">
+                            <button class="btn mt-5 bg-gray-800 border-2 border-gray-800 text-white w-50">Home</button>
+                        </a>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
-
-    <script>
-        // Global variables
-        let currentTicket = {
-            ticketID: '',
-            type: '',
-            isPremium: 0,
-            route: '',
-            distance: 0,
-            time: '',
-            fare: 0,
-        };
-
-        let passenger = {
-            name: '',
-            age: 0,
-            contact: ''
-        };
-
-        let selectedPaymentMethod = '';
-
-        function upFive(fare){
-            fare = Math.floor(fare);
-            return (5+fare - (fare%5));
-        }
-
-        // Route and distance data
-        const routes = {
-            bus: [
-                { name: "Rajshahi - Dhaka", distance: 280 },
-                { name: "Rajshahi - Khulna", distance: 250 },
-                { name: "Rajshahi - Rangpur", distance: 200 },
-                { name: "Rajshahi - Kushtia", distance: 90 },
-                { name: "Rajshahi - Barisal", distance: 300 },
-                { name: "Rajshahi - Bogura", distance: 150 },
-                { name: "Rajshahi - Nator", distance: 55 }
-            ],
-            train: [
-                { name: "Rajshahi - Dhaka", distance: 280 },
-                { name: "Rajshahi - Khulna", distance: 250 },
-                { name: "Rajshahi - Rangpur", distance: 200 },
-                { name: "Rajshahi - Kushtia", distance: 90 }
-            ],
-            flight: [
-                { name: "Rajshahi - Dhaka", distance: 280 }
-            ]
-        };
-
-        const departureTimes = {
-            bus: ["08:00 AM", "09:00 AM", "12:00 PM", "03:00 PM", "04:00 PM", "07:00 PM"],
-            train: ["08:00 AM", "12:00 PM", "04:00 PM"],
-            flight: ["10:00 AM", "08:00 PM"]
-        };
-
-        // Navigation functions
-        function showMainMenu() {
-            hideAllSections();
-            document.getElementById('mainMenu').classList.add('active');
-            resetBooking();
-        }
-
-        function showBuyTicket() {
-            hideAllSections();
-            document.getElementById('buyTicketSection').classList.add('active');
-        }
-
-        function showCheckTicket() {
-            hideAllSections();
-            document.getElementById('checkTicketSection').classList.add('active');
-        }
-
-        function showPassengerInfo() {
-            hideAllSections();
-            document.getElementById('passengerSection').classList.add('active');
-        }
-
-        function hideAllSections() {
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => section.classList.remove('active'));
-        }
-
-        function resetBooking() {
-            currentTicket = {
-                ticketID: '',
-                type: '',
-                isPremium: 0,
-                route: '',
-                distance: 0,
-                time: '',
-                fare: 0
-            };
-            passenger = { name: '', age: 0, contact: '' };
-            selectedPaymentMethod = '';
-            document.getElementById('ticketType').value = '';
-            document.getElementById('premiumChoice').value = '0';
-        }
-
-        // Ticket type change handler
-        function handleTicketTypeChange() {
-            const ticketType = document.getElementById('ticketType').value;
-            if (!ticketType) return;
-
-            currentTicket.type = ticketType;
-            currentTicket.isPremium = parseInt(document.getElementById('premiumChoice').value);
-
-            displayRoutes(ticketType);
-        }
-
-        // Display available routes
-        function displayRoutes(ticketType) {
-            const routeSection = document.getElementById('routeSection');
-            const routeOptions = document.getElementById('routeOptions');
-            routeOptions.innerHTML = '';
-
-            routes[ticketType].forEach((route, index) => {
-                const div = document.createElement('div');
-                div.className = 'route-option';
-                div.textContent = route.name;
-                div.onclick = () => selectRoute(route, div);
-                routeOptions.appendChild(div);
-            });
-
-            routeSection.style.display = 'block';
-            document.getElementById('timeSection').style.display = 'none';
-            document.getElementById('continueBtn').style.display = 'none';
-        }
-
-        // Select route
-        function selectRoute(route, element) {
-            document.querySelectorAll('.route-option').forEach(el => el.classList.remove('selected'));
-            element.classList.add('selected');
-
-            currentTicket.route = route.name;
-            currentTicket.distance = route.distance;
-
-            displayTimes();
-        }
-
-        // Display departure times
-        function displayTimes() {
-            const timeSection = document.getElementById('timeSection');
-            const timeOptions = document.getElementById('timeOptions');
-            timeOptions.innerHTML = '';
-
-            departureTimes[currentTicket.type].forEach(time => {
-                const div = document.createElement('div');
-                div.className = 'time-option';
-                div.textContent = time;
-                div.onclick = () => selectTime(time, div);
-                timeOptions.appendChild(div);
-            });
-
-            timeSection.style.display = 'block';
-        }
-
-        // Select time
-        function selectTime(time, element) {
-            document.querySelectorAll('.time-option').forEach(el => el.classList.remove('selected'));
-            element.classList.add('selected');
-
-            currentTicket.time = time;
-            document.getElementById('continueBtn').style.display = 'block';
-        }
-
-        // Proceed to passenger info
-        function proceedToPassengerInfo() {
-            if (!currentTicket.route || !currentTicket.time) {
-                alert('Please select a route and departure time');
-                return;
-            }
-
-            currentTicket.isPremium = parseInt(document.getElementById('premiumChoice').value);
-            currentTicket.ticketID = generateTicketID();
-            calculateFare();
-            showPassengerInfo();
-        }
-
-        // Generate ticket ID
-        function generateTicketID() {
-            const prefix = currentTicket.type === 'bus' ? 'BU' : 
-                          currentTicket.type === 'train' ? 'TR' : 'FL';
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let id = '';
-            for (let i = 0; i < 5; i++) {
-                id += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return prefix + id;
-        }
-
-        // Calculate fare
-        function calculateFare() {
-            let baseFare;
-            if (currentTicket.type === 'bus') {
-                baseFare = currentTicket.distance * 3;
-            } else if (currentTicket.type === 'train') {
-                baseFare = currentTicket.distance * 2;
-            } else {
-                baseFare = 5500;
-            }
-
-            if (currentTicket.isPremium) {
-                baseFare *= 1.5;
-            }
-
-            currentTicket.fare = upFive(baseFare);
-        }
-
-        // Show ticket summary
-        function showTicketSummary() {
-            if (!validatePassengerInfo()) return;
-
-            passenger.name = document.getElementById('passengerName').value;
-            passenger.age = parseInt(document.getElementById('passengerAge').value);
-            passenger.contact = document.getElementById('passengerContact').value;
-
-            displayTicketSummary();
-            hideAllSections();
-            document.getElementById('summarySection').classList.add('active');
-        }
-
-        // Validate passenger info
-        function validatePassengerInfo() {
-            let isValid = true;
-            
-            const name = document.getElementById('passengerName').value.trim();
-            const age = parseInt(document.getElementById('passengerAge').value);
-            const contact = document.getElementById('passengerContact').value.trim();
-
-            document.getElementById('nameError').textContent = '';
-            document.getElementById('ageError').textContent = '';
-            document.getElementById('contactError').textContent = '';
-
-            if (!name) {
-                document.getElementById('nameError').textContent = 'Name is required';
-                isValid = false;
-            }
-
-            if (!age || age < 1 || age > 120) {
-                document.getElementById('ageError').textContent = 'Age must be between 1 and 120';
-                isValid = false;
-            }
-
-            if (!contact || contact.length !== 11 || !contact.startsWith('01')) {
-                document.getElementById('contactError').textContent = 'Contact must start with 01 and be 11 digits';
-                isValid = false;
-            }
-
-            return isValid;
-        }
-
-        // Display ticket summary
-        function displayTicketSummary() {
-            const summary = document.getElementById('ticketSummary');
-            summary.innerHTML = `
-                <div class="info-row">
-                    <span class="info-label">Ticket ID:</span>
-                    <span class="info-value">${currentTicket.ticketID}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Passenger Name:</span>
-                    <span class="info-value">${passenger.name}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Age:</span>
-                    <span class="info-value">${passenger.age}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Contact:</span>
-                    <span class="info-value">${passenger.contact}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Ticket Type:</span>
-                    <span class="info-value">${currentTicket.type.toUpperCase()}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Route:</span>
-                    <span class="info-value">${currentTicket.route}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Departure Time:</span>
-                    <span class="info-value">${currentTicket.time}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Class:</span>
-                    <span class="info-value">${currentTicket.isPremium ? 'Premium' : 'Regular'}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Total Fare:</span>
-                    <span class="info-value" id="currentFare">${currentTicket.fare} BDT</span>
-                </div>
-            `;
-        }
-        
-        let couponNotUsed = true;
-        // Apply coupon
-        function applyCoupon() {
-            const coupon = document.getElementById('couponCode').value.trim();
-            let discount = 0;
-            if (coupon === 'ECE' && couponNotUsed) {
-                couponNotUsed = false;
-                discount = Math.floor(currentTicket.fare * 0.1111);
-                document.getElementById("couponShow").style.display = "inline";
-            } else if(!couponNotUsed){
-                alert("Already Coupon Aplied!");
-                return
-            } else {
-                alert('Invalid coupon code');
-                return;
-            }
-
-            currentTicket.fare = currentTicket.fare - discount;
-            currentTicket.fare = upFive(currentTicket.fare);
-            if (currentTicket.fare < 50) currentTicket.fare = 50;
-
-            document.getElementById('currentFare').textContent = currentTicket.fare + ' BDT';
-        }
-
-        // Select payment method
-        function selectPayment(method) {
-            document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
-            event.target.closest('.payment-option').classList.add('selected');
-            
-            selectedPaymentMethod = method;
-            document.getElementById('paymentDetails').style.display = 'block';
-            document.getElementById('payBtn').style.display = 'block';
-
-            const label = method === 'bank' ? 'Enter Account Number:' : 'Enter PIN:';
-            document.getElementById('paymentLabel').textContent = label;
-        }
-
-        // Process payment
-        function processPayment() {
-            if (!selectedPaymentMethod) {
-                alert('Please select a payment method');
-                return;
-            }
-
-            const pin = document.getElementById('paymentPin').value;
-            if (!pin) {
-                alert('Please enter your PIN/Account number');
-                return;
-            }
-
-            const transactionID = 'TXN' + Math.floor(Math.random() * 10000);
-
-            // Save to localStorage
-            const tickets = JSON.parse(localStorage.getItem('tickets') || '[]');
-            tickets.push({
-                ...currentTicket,
-                passenger,
-                paymentMethod: selectedPaymentMethod,
-                transactionID,
-                bookingDate: new Date().toLocaleString()
-            });
-            localStorage.setItem('tickets', JSON.stringify(tickets));
-
-            // Show success message
-            hideAllSections();
-            const result = document.getElementById('ticketResult');
-            result.innerHTML = `
-                <div class="success-message">
-                    <h2>✅ Booking Confirmed!</h2>
-                    <p><strong>Transaction ID:</strong> ${transactionID}</p>
-                    <p><strong>Ticket ID:</strong> ${currentTicket.ticketID}</p>
-                    <p>Your ticket has been booked successfully!</p>
-                </div>
-            `;
-            document.getElementById('checkTicketSection').classList.add('active');
-            couponNotUsed = true;
-
-        }
-
-        // Search ticket
-        function searchTicket() {
-            const searchID = document.getElementById('searchTicketID').value.trim().toUpperCase();
-            if (!searchID) {
-                alert('Please enter a ticket ID');
-                return;
-            }
-
-            const tickets = JSON.parse(localStorage.getItem('tickets') || '[]');
-            const ticket = tickets.find(t => t.ticketID === searchID);
-
-            const result = document.getElementById('ticketResult');
-            
-            if (ticket) {
-                result.innerHTML = `
-                    <div class="buyer-details">
-                        <h3>Ticket Details</h3>
-                        <div class="info-row">
-                            <span class="info-label">Ticket ID:</span>
-                            <span class="info-value">${ticket.ticketID}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Passenger Name:</span>
-                            <span class="info-value">${ticket.passenger.name}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Age:</span>
-                            <span class="info-value">${ticket.passenger.age}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Contact:</span>
-                            <span class="info-value">${ticket.passenger.contact}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Ticket Type:</span>
-                            <span class="info-value">${ticket.type.toUpperCase()}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Route:</span>
-                            <span class="info-value">${ticket.route}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Departure Time:</span>
-                            <span class="info-value">${ticket.time}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Class:</span>
-                            <span class="info-value">${ticket.isPremium ? 'Premium' : 'Regular'}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Total Fare:</span>
-                            <span class="info-value">${ticket.fare} BDT</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Transaction ID:</span>
-                            <span class="info-value">${ticket.transactionID}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Booking Date:</span>
-                            <span class="info-value">${ticket.bookingDate}</span>
-                        </div>
-                    </div>
-                `;
-            } else {
-                result.innerHTML = `
-                    <div style="color: #e74c3c; padding: 20px; text-align: center;">
-                        No ticket found with ID: ${searchID}
-                    </div>
-                `;
-            }
-        }
-    </script>
+    <footer>
+        <div class="w-full text-center text-lg p-3 fixed bottom-0 border-t-2 border-gray-400 text-gray-600">
+            <p>&copy; 2025 E-Ticket Booking System. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
 </body>
 </html>

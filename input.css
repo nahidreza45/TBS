@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+.btn{
+    @apply text-xl border-2 p-2 rounded;
+}
+
+@layer components{
+    .btn:hover,
+    .btn.selected{
+        @apply font-bold ring transition;
+    }
+
+
+}
+
+@layer components {
+  /* BKash */
+  .bkash:hover,
+  .bkash.selected {
+    border-color: #E2136E;
+    color: #E2136E;
+    background-color: transparent; /* if you don't want any fill */
+  }
+
+  /* Nagad */
+  .nagad:hover,
+  .nagad.selected {
+    border-color: #EC1C24;
+    color: #EC1C24;
+    background-color: transparent;
+  }
+
+  /* Bank example */
+  .bank:hover,
+  .bank.selected {
+    border-color: #1C6EF2;
+    color: #1C6EF2;
+    background-color: transparent;
+  }
+}
+
+.btn-primary{
+    @apply text-cyan-800 border-cyan-800;
+}
+.summary-card-element{
+    @apply flex justify-between border-b-2 border-cyan-800 p-2;
+}
