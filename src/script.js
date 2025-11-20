@@ -353,7 +353,7 @@ confirm_payment_button.addEventListener("click", () => {
   geID("show-transaction-id").innerText = passenger.transactionId;
   geID("show-ticket-id").innerText = passenger.ticketId;
   const date = new Date();
-  passenger.booktime = date.toDateString() + "  " + date.toTimeString().slice(0,5);
+  passenger.booktime = date.toString().slice(4,21);
   showSection(final_section);
   savePassenger(passenger);
 })
